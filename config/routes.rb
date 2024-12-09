@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :videos
   # Define CRUD paths for Articles
   resources :articles
 
@@ -6,6 +7,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :articles
     root "admin/articles#index"
+    resources :videos
   end
   get "admin/index"
 
