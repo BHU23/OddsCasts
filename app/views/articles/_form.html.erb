@@ -18,12 +18,12 @@
 
   <div class="my-5">
     <%= form.label :description %>
-    <%= form.text_field :description, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.text_area :description, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="my-5">
-    <%= form.label :cover_url %>
-    <%= form.text_field :cover_url, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.label :cover%>
+    <%= form.file_field :cover, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="inline">
