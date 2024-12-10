@@ -10,8 +10,17 @@
   </p>
 
   <p class="my-5">
+    <strong class="block font-medium mb-1">Video:</strong>
+    <%=video_tag video.video_url, controls: true %>
+  </p>
+
+  <p class="my-5">
     <strong class="block font-medium mb-1">Video url:</strong>
-    <%= video.video_url %>
+    <% if video.cover.attached? %>
+      <%= image_tag video.cover, alt: "Cover image", class: "rounded-lg shadow-md w-auto h-20" %>
+    <% else %>
+      <span>No cover image available</span>
+    <% end %>
   </p>
 
 </div>

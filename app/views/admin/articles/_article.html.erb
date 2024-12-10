@@ -11,7 +11,8 @@
 
   <p class="my-5">
     <strong class="block font-medium mb-1">Cover url:</strong>
-    <% if article.cover.present? %>
+    <%=image_tag (article.cover) if article.cover.attached? %>
+    <% if article.cover.attached? %>
       <%= image_tag article.cover, alt: "Cover image", class: "rounded-lg shadow-md w-auto h-20" %>
     <% else %>
       <span>No cover image available</span>

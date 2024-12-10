@@ -14,6 +14,7 @@ class Admin::VideosController < ApplicationController
   # GET /videos/new
   def new
     @video = Video.new
+    @video.build_content
   end
 
   # GET /videos/1/edit
@@ -66,6 +67,6 @@ class Admin::VideosController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def video_params
-      params.require(:video).permit(:video_url, content_attributes: [:title, :description])
+      params.require(:video).permit(:video_url, :cover, content_attributes: [:title, :description])
     end    
 end
