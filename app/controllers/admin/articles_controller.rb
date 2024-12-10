@@ -14,6 +14,7 @@ class Admin::ArticlesController < ApplicationController
     # GET /articles/new
     def new
         @article = Article.new
+        @article.build_content
     end
     
     # GET /articles/1/edit
@@ -40,7 +41,7 @@ class Admin::ArticlesController < ApplicationController
         respond_to do |format|
         if @article.update(article_params)
             format.html { redirect_to [:admin, @article], notice: "Article was successfully updated." }
-            format.json { render :admin_article_path, status: :ok, location: @article }
+            format.json { render :show, status: :ok, location: @article }
         else
             format.html { render :edit, status: :unprocessable_entity }
             format.json { render json: @article.errors, status: :unprocessable_entity }
@@ -53,7 +54,7 @@ class Admin::ArticlesController < ApplicationController
         @article.destroy!
     
         respond_to do |format|
-        format.html { redirect_to articles_path, status: :see_other, notice: "Article was successfully destroyed." }
+        format.html { redirect_to admin_articles_path, status: :see_other, notice: "Article was successfully destroyed." }
         format.json { head :no_content }
         end
     end
@@ -66,7 +67,7 @@ class Admin::ArticlesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def article_params
-    params.expect(article: [ :title, :description, :cover_url ])
+        params.require(:article).permit(content_attributes: [:title, :description])
     end
 end
     
