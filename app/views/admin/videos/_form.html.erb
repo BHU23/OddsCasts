@@ -1,3 +1,12 @@
+<% if !video.new_record? %>
+  <% if video.content.draft? %>
+    <%= button_to "Submit for review", submit_for_review_admin_article_path(video), method: :post, class: "btn btn-primary" %>
+  <% elsif video.content.in_review? %>
+    <div> Approve or Reject</div>
+    <%= button_to "Approve", approve_admin_article_path(video), method: :post, class: "btn btn-success" %>
+    <%= button_to "Reject", reject_admin_article_path(video), method: :post, class: "btn btn-danger" %>
+  <% end %>
+<% end %>
 <%= form_with(model: [:admin, video], class: "contents") do |form| %>
   <% if video.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">

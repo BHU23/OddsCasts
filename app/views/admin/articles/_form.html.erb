@@ -1,3 +1,13 @@
+<% if !article.new_record? %>
+  <% if article.content.draft? %>
+    <%= button_to "Submit for review", submit_for_review_admin_article_path(article), method: :post, class: "btn btn-primary" %>
+  <% elsif article.content.in_review? %>
+    <div> Approve or Reject</div>
+    <%= button_to "Approve", approve_admin_article_path(article), method: :post, class: "btn btn-success" %>
+    <%= button_to "Reject", reject_admin_article_path(article), method: :post, class: "btn btn-danger" %>
+  <% end %>
+<% end %>
+
 <%= form_with(model: [:admin,article], class: "contents") do |form| %>
   <% if article.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">

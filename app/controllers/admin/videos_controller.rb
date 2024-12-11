@@ -1,6 +1,6 @@
 class Admin::VideosController < ApplicationController
 
-  before_action :set_video, only: %i[ show edit update destroy ]
+  before_action :set_video, only: %i[ show edit update destroy submit_for_review approve reject ]
 
   # GET /videos or /videos.json
   def index
@@ -59,6 +59,38 @@ class Admin::VideosController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  # POST /videos/:id/submit_for_review
+  def submit_for_review
+      if @video.content.draft?
+          @video.content.submit_for_review!
+          ContentMailer.with(content: @video.content).notify_content_submitted.deliver_now
+          redirect_to admin_videos_path, notice: "Video submitted for review."
+      else
+          redirect_to admin_videos_path, alert: "Video cannot be submitted for review."
+      end
+  end
+
+  # POST /videos/:id/approve
+  def approve
+      if @video.content.in_review?
+          @video.content.approve!
+          redirect_to admin_videos_path, notice: "Video approved."
+      else
+          redirect_to admin_videos_path, alert: "Video cannot be approved."
+      end
+  end
+
+  # POST /videos/:id/reject
+  def reject
+      if @video.content.in_review?
+          @video.content.reject!
+          ContentMailer.with(content: @video.content).notify_content_submitted.deliver_now
+          redirect_to admin_videos_path, notice: "Video rejected."
+      else
+          redirect_to admin_videos_path, alert: "Article cannot be rejected."
+      end
+  end 
 
   private
     # Use callbacks to share common setup or constraints between actions.

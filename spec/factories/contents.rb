@@ -3,4 +3,5 @@ FactoryBot.define do
     title { "MyString" }
     description { "MyString" }
   end
+  
 end

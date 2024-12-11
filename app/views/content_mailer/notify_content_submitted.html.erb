@@ -1,0 +1,8 @@
+<h1>Welcome to OddsCasts, <%= @content.title %></h1>
+<p>
+  I am reaching out to request your feedback on the content for review or suggestions.<br>
+  You can view the content here:  <%= link_to "View Content", "http://localhost:3000/admin/#{@content.contentable.class.name.downcase}s/#{@content.contentable_id}" %>
+<p>
+  Thank you,<br>
+  The Odds Team
+</p>

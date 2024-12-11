@@ -5,8 +5,15 @@ Rails.application.routes.draw do
 
   # Admin routes for managing articles
   namespace :admin do
-    resources :articles
+    resources :articles do
+      member do
+        post :submit_for_review
+        post :approve
+        post :reject
+      end
+    end
     resources :videos
+
   end
 
   # Defines the root path route ("/")

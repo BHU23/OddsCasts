@@ -1,6 +1,6 @@
 class Admin::ArticlesController < ApplicationController
 
-    before_action :set_article, only: %i[ show edit update destroy ]
+    before_action :set_article, only: %i[ show edit update destroy submit_for_review approve reject]
     
     # GET /articles or /articles.json
     def index
@@ -59,6 +59,39 @@ class Admin::ArticlesController < ApplicationController
         format.json { head :no_content }
         end
     end
+
+    # POST /articles/:id/submit_for_review
+    def submit_for_review
+        if @article.content.draft?
+            @article.content.submit_for_review!
+            ContentMailer.with(content: @article.content).notify_content_submitted.deliver_now
+            redirect_to admin_articles_path, notice: "Article submitted for review."
+        else
+            redirect_to admin_articles_path, alert: "Article cannot be submitted for review."
+        end
+    end
+
+    # POST /articles/:id/approve
+    def approve
+        @article = Article.find(params.expect(:id))
+        if @article.content.in_review?
+            @article.content.approve!
+            redirect_to admin_articles_path, notice: "Article approved."
+        else
+            redirect_to admin_articles_path, alert: "Article cannot be approved."
+        end
+    end
+
+    # POST /articles/:id/reject
+    def reject
+        if @article.content.in_review?
+            @article.content.reject!
+            ContentMailer.with(content: @article.content).notify_content_submitted.deliver_now
+            redirect_to admin_articles_path, notice: "Article rejected."
+        else
+            redirect_to admin_articles_path, alert: "Article cannot be rejected."
+        end
+    end 
     
     private
     # Use callbacks to share common setup or constraints between actions.

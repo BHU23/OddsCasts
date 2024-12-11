@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.shared_examples "Contents", type: :system do
+shared_examples "Contents", type: :system do
     let(:content) { create(content, title: contentable.title, description: contentable.description1) }
     scenario "Admin allows creating an content" do
         visit_admin_page
@@ -30,6 +30,14 @@ RSpec.shared_examples "Contents", type: :system do
         user_destroy_the_content
         user_should_see_the_content_is_deleted
       end
+
+      scenario "user can submit the content for a review" do
+        visit_admin_page
+        user_selects_an_content
+        user_selects_an_content_to_edit
+        click_on "Submit for review"
+        # expect(page).to have_content
+      end
     
       def visit_admin_page
         visit admin_content_path
@@ -41,7 +49,6 @@ RSpec.shared_examples "Contents", type: :system do
       end
     
       def click_link_new_content
-        # click_on('New content')
         click_on('New')
       end
     
