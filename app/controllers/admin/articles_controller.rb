@@ -19,6 +19,7 @@ class Admin::ArticlesController < ApplicationController
     
     # GET /articles/1/edit
     def edit
+        @article.build_content if @article.content.nil?
     end
     
     # POST /articles or /articles.json
@@ -70,4 +71,3 @@ class Admin::ArticlesController < ApplicationController
         params.require(:article).permit(:cover, content_attributes: [:title, :description])
     end
 end
-    

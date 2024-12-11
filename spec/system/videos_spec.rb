@@ -1,15 +1,15 @@
 require "rails_helper"
 require_relative "../support/shared_examples/contents_spec.rb"
-describe "Articles management" do
 
-  let!(:article) { create(:article, title: "RubyOnRuby", description: "Initial Description") }
+describe "Videos management" do
+  let!(:video) { create(:video, title: "video1", description: "Initial Description", video_url: "https://www.youtube.com/watch?v=edm-Fcxq_bA&t=1266s") }
   it_should_behave_like "Contents" do
-    let(:contentables) { "Articles" }
-    let(:contentable) { "Article" }
-    let(:content) { article }
-    let(:admin_content_path) { admin_articles_path }
-    let(:content_path) { admin_article_path(article) }
-    let(:content_edit_path) { edit_admin_article_path(article) }
+    let(:contentables) { "Videos" }
+    let(:contentable) { "Video" }
+    let(:content) { video }
+    let(:admin_content_path) { admin_videos_path }
+    let(:content_path) { admin_video_path(video) }
+    let(:content_edit_path) { edit_admin_video_path(video) }
   end
   # scenario "Admin allows creating an article" do
   #   visit_admin_page

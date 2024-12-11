@@ -19,6 +19,7 @@ class Admin::VideosController < ApplicationController
 
   # GET /videos/1/edit
   def edit
+    @video.build_content if @video.content.nil?
   end
 
   # POST /videos or /videos.json
