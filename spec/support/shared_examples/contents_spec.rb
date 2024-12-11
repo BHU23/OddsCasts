@@ -2,6 +2,12 @@ require "rails_helper"
 
 shared_examples "Contents", type: :system do
     let(:content) { create(content, title: contentable.title, description: contentable.description1) }
+    let!(:restricted_words) do
+      create(:restricted_word, word: "Fxxxxx")
+      create(:restricted_word, word: "Sxxxxx")
+      create(:restricted_word, word: "Bxxxxx")
+    end
+    
     scenario "Admin allows creating an content" do
         visit_admin_page
         click_link_new_content
@@ -38,7 +44,62 @@ shared_examples "Contents", type: :system do
         click_on "Submit for review"
         # expect(page).to have_content
       end
+
+      scenario "user cannot use Fxxxxx, Sxxxxx, or Bxxxxx in the title text field" do
+        # article = build(:article, title: "This is Fxxxxx, Sxxxxx, and Bxxxxx")
+        # expect(article).not_to be_valid
+        visit_admin_page
+        click_link_new_content
+        fill_in_title_details("This is Fxxxxx, Sxxxxx, and Bxxxxx")
+        click_button_create
+      
+        user_sees_notices_that_text_is_restricted_word("Fxxxxx")
+        user_sees_notices_that_text_is_restricted_word("Sxxxxx")
+        user_sees_notices_that_text_is_restricted_word("Bxxxxx")
+      end
     
+      scenario "user cannot use title contains restricted words with different cases" do
+        visit_admin_page
+        click_link_new_content
+        fill_in_title_details("This is fxxxxx and sxxxxx")
+        click_button_create
+        user_sees_notices_that_text_is_restricted_word("Fxxxxx")
+        user_sees_notices_that_text_is_restricted_word("Sxxxxx")
+      end
+    
+      scenario "user cannot submit with a blank title" do
+        visit_admin_page
+        click_link_new_content
+        fill_in_title_details(" ")
+        click_button_create
+        user_sees_notification_for_error_message("Title can't be blank")
+      end
+      
+      scenario "user cannot submit with a title shorter than 1 character" do
+        visit_admin_page
+        click_link_new_content
+        fill_in_title_details("")
+        click_button_create
+        user_sees_notification_for_error_message("Title is too short (minimum is 1 character)")
+        user_sees_notification_for_error_message("Title can't be blank")
+      end      
+
+      scenario "user uses title does not contain restricted words" do
+        visit_admin_page
+        click_link_new_content
+        fill_in_title_details("This is a clean title")
+        click_button_create
+        user_sees_notices_created
+      end
+    
+      scenario "user can use a restricted word is part of another word" do
+        visit_admin_page
+        click_link_new_content
+        fill_in_title_details("This is notfxxxxxallowed")
+        click_button_create
+        user_sees_notices_created
+      end
+
       def visit_admin_page
         visit admin_content_path
       end
@@ -97,6 +158,22 @@ shared_examples "Contents", type: :system do
     
       def user_should_see_the_content_is_deleted
         expect(page).not_to have_content("RubyOnRuby")
+      end
+
+      def fill_in_title_details(title)
+        fill_in("Title", :with => title)
+      end
+
+      def user_sees_notices_that_text_is_restricted_word(restricted_word)
+        expect(page).to have_content("contains a restricted word: '#{restricted_word}'")
+      end
+
+      def user_sees_notification_for_error_message(error_message)
+        expect(page).to have_content(error_message)
+      end
+      
+      def user_sees_notices_created
+        expect(page).to have_content("#{contentable} was successfully created.")
       end
   end
   

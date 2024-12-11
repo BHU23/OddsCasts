@@ -11,7 +11,11 @@
 
   <p class="my-5">
     <strong class="block font-medium mb-1">Video:</strong>
-    <%=video_tag video.video_url, controls: true %>
+    <% if video.video_url =~ URI::DEFAULT_PARSER.make_regexp %>
+      <%= video_tag video.video_url, controls: true %>
+    <% else %>
+      <span class="text-red-500">Invalid video URL</span>
+    <% end %>
   </p>
 
   <p class="my-5">

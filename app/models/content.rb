@@ -1,5 +1,6 @@
 class Content < ApplicationRecord
     belongs_to  :contentable, polymorphic: true
+    # validates_with RestrictedWordValidator
     
     enum :state, { draft: 0, in_review: 1, published: 2 } do
         event :submit_for_review do

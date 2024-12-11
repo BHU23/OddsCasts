@@ -2,7 +2,7 @@ require "rails_helper"
 require_relative "../support/shared_examples/contents_spec.rb"
 
 describe "Videos management" do
-  let!(:video) { create(:video, title: "RubyOnRuby", description: "Initial Description", video_url: "https://www.youtube.com/watch?v=edm-Fcxq_bA&t=1266s") }
+  let!(:video) { create(:video, title: "rubyonruby", description: "Initial Description", video_url: "https://www.youtube.com/watch?v=edm-Fcxq_bA&t=1266s") }
   it_should_behave_like "Contents" do
     let(:contentables) { "Videos" }
     let(:contentable) { "Video" }

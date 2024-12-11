@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Admin::ArticlesController, type: :controller do
+describe Admin::ArticlesController, type: :controller do 
     it "sends an email when an article is submitted" do
         article = create(:article)
     

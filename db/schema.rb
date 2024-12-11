@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_11_043701) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_11_100547) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -59,6 +59,12 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_11_043701) do
     t.bigint "contentable_id"
     t.integer "state", default: 0
     t.index ["contentable_type", "contentable_id"], name: "index_contents_on_contentable"
+  end
+
+  create_table "restricted_words", force: :cascade do |t|
+    t.string "word"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "videos", force: :cascade do |t|
