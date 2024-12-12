@@ -1,5 +1,5 @@
 require 'rails_helper'
-
+#add multi word test
 RSpec.describe RestrictedWord, type: :model do
   describe "validations" do
     it "is valid with a valid word" do

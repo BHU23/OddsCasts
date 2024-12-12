@@ -1,5 +1,5 @@
 require "rails_helper"
-
+require 'selenium-webdriver'
 shared_examples "Contents", type: :system do
     let(:content) { create(content, title: contentable.title, description: contentable.description1) }
     let!(:restricted_words) do

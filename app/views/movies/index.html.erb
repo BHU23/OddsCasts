@@ -1,0 +1,16 @@
+<div>
+<% if @movies.present? %>
+<h1 class="font-bold text-4xl">Movies</h1>
+  <div class="grid grid-cols-3 gap-4 mt-4">
+      <% @movies.each do |movie| %>
+        <div class="border p-4 rounded shadow">
+          <img src="<%= movie[:poster_path] %>" alt="<%= movie[:title] %>" class="w-full h-64 object-cover">
+          <h2 class="font-bold text-xl mt-2"><%= movie[:title] %></h2>
+          <p class="text-gray-700 mt-1"><%= movie[:overview] %></p>
+        </div>
+      <% end %>
+  </div>
+   <% else %>
+      <p>No movies found.</p>
+    <% end %>
+</div>

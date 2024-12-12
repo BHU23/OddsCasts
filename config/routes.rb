@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "movies" => "movies#index"
   resources :videos
   # Define CRUD paths for Articles
   resources :articles
